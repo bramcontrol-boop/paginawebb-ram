@@ -7,907 +7,32 @@
   <meta name="description" content="B-RAM convierte la gestión previsional de RR.HH. en un sistema estructurado, controlado y preventivo mediante auditoría técnica, arquitectura de control y prevención real." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #131919;
-      --surface: rgba(19, 25, 25, 0.78);
-      --surface-2: rgba(22, 31, 31, 0.92);
-      --card: rgba(241, 247, 246, 0.06);
-      --card-strong: rgba(241, 247, 246, 0.1);
-      --text: #F1F7F6;
-      --muted: rgba(241, 247, 246, 0.72);
-      --primary: #00626B;
-      --secondary: #8FB3B0;
-      --white: #ffffff;
-      --line: rgba(143, 179, 176, 0.16);
-      --line-strong: rgba(143, 179, 176, 0.32);
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
-      --radius: 28px;
-      --radius-sm: 18px;
-      --max: 1220px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Glacial Indifference", Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 12% 8%, rgba(0, 98, 107, 0.32), transparent 22%),
-        radial-gradient(circle at 88% 18%, rgba(143, 179, 176, 0.14), transparent 20%),
-        radial-gradient(circle at 50% 100%, rgba(0, 98, 107, 0.22), transparent 30%),
-        linear-gradient(180deg, #101616 0%, #131919 45%, #0e1414 100%);
-      line-height: 1.55;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -2;
-    }
-
-    body::before {
-      background-image:
-        linear-gradient(rgba(143, 179, 176, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(143, 179, 176, 0.045) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: radial-gradient(circle at center, black 35%, transparent 88%);
-      opacity: 0.55;
-    }
-
-    body::after {
-      background:
-        radial-gradient(circle at 25% 30%, rgba(0, 98, 107, 0.16), transparent 18%),
-        radial-gradient(circle at 80% 65%, rgba(143, 179, 176, 0.12), transparent 15%);
-      filter: blur(24px);
-      animation: ambientMove 14s ease-in-out infinite alternate;
-    }
-
-    @keyframes ambientMove {
-      from { transform: translate3d(0, 0, 0) scale(1); }
-      to { transform: translate3d(0, -20px, 0) scale(1.04); }
-    }
-
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-
-    .container {
-      width: min(calc(100% - 32px), var(--max));
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(10, 15, 15, 0.72);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(143, 179, 176, 0.1);
-    }
-
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      gap: 16px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      font-family: "League Spartan", Arial, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .brand-mark {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      position: relative;
-      background: linear-gradient(135deg, rgba(0, 98, 107, 0.95), rgba(143, 179, 176, 0.8));
-      display: grid;
-      place-items: center;
-      color: var(--white);
-      box-shadow: 0 12px 30px rgba(0, 98, 107, 0.35);
-      overflow: hidden;
-    }
-
-    .brand-mark::before,
-    .brand-mark::after {
-      content: "";
-      position: absolute;
-      background: rgba(241, 247, 246, 0.26);
-      border-radius: 999px;
-    }
-
-    .brand-mark::before {
-      width: 70%;
-      height: 2px;
-      transform: rotate(45deg);
-    }
-
-    .brand-mark::after {
-      width: 2px;
-      height: 70%;
-      right: 14px;
-      top: 8px;
-    }
-
-    .brand span small {
-      display: block;
-      margin-top: 3px;
-      color: rgba(241, 247, 246, 0.58);
-      letter-spacing: 0.22em;
-      font-size: 0.65rem;
-      font-family: "Glacial Indifference", Arial, sans-serif;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      font-size: 0.96rem;
-      color: var(--muted);
-    }
-
-    .nav-links a {
-      position: relative;
-      transition: color 0.25s ease;
-    }
-
-    .nav-links a:not(.btn)::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -6px;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--secondary), var(--primary));
-      transition: width 0.25s ease;
-    }
-
-    .nav-links a:not(.btn):hover { color: var(--text); }
-    .nav-links a:not(.btn):hover::after { width: 100%; }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 22px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-family: "League Spartan", Arial, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0, 98, 107, 0.22);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), #0a7d86);
-      color: var(--white);
-      border-color: rgba(143, 179, 176, 0.22);
-    }
-
-    .btn-secondary {
-      background: rgba(241, 247, 246, 0.04);
-      color: var(--text);
-      border-color: rgba(143, 179, 176, 0.2);
-    }
-
-    .hero {
-      padding: 90px 0 58px;
-      position: relative;
-      overflow: clip;
-    }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      filter: blur(18px);
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    .hero::before {
-      width: 340px;
-      height: 340px;
-      top: 20px;
-      right: -80px;
-      background: radial-gradient(circle, rgba(143, 179, 176, 0.18), transparent 65%);
-      animation: floatOrb 8s ease-in-out infinite alternate;
-    }
-
-    .hero::after {
-      width: 260px;
-      height: 260px;
-      left: -80px;
-      bottom: 0;
-      background: radial-gradient(circle, rgba(0, 98, 107, 0.22), transparent 68%);
-      animation: floatOrb 10s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes floatOrb {
-      from { transform: translateY(0px) translateX(0px); }
-      to { transform: translateY(-22px) translateX(12px); }
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 28px;
-      align-items: stretch;
-    }
-
-    .panel,
-    .hero-card,
-    .section-card,
-    .service,
-    .value,
-    .audience,
-    .metric,
-    .faq-item,
-    .contact-box,
-    .footer-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-      border: 1px solid rgba(143, 179, 176, 0.12);
-      box-shadow: var(--shadow);
-      border-radius: var(--radius);
-      backdrop-filter: blur(12px);
-    }
-
-    .hero-copy {
-      padding: 46px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-copy::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 18% 16%, rgba(143, 179, 176, 0.12), transparent 20%),
-        linear-gradient(120deg, transparent 0%, rgba(143, 179, 176, 0.04) 40%, transparent 80%);
-      pointer-events: none;
-    }
-
-    .hero-copy::after {
-      content: "";
-      position: absolute;
-      inset: 18px;
-      border-radius: calc(var(--radius) - 10px);
-      border: 1px solid rgba(143, 179, 176, 0.08);
-      pointer-events: none;
-    }
-
-    .hero-copy > * { position: relative; z-index: 1; }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(143, 179, 176, 0.08);
-      border: 1px solid rgba(143, 179, 176, 0.14);
-      color: var(--secondary);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-family: "League Spartan", Arial, sans-serif;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--secondary), var(--primary));
-      box-shadow: 0 0 12px rgba(143, 179, 176, 0.45);
-      animation: pulse 1.8s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.35); opacity: 0.7; }
-    }
-
-    h1, h2, h3, h4 {
-      margin: 0;
-      font-family: "League Spartan", Arial, sans-serif;
-      letter-spacing: -0.03em;
-      line-height: 0.98;
-    }
-
-    h1 {
-      font-size: clamp(2.9rem, 6vw, 5.6rem);
-      margin: 22px 0 18px;
-      max-width: 10ch;
-    }
-
-    .lead {
-      font-size: 1.08rem;
-      color: var(--muted);
-      max-width: 60ch;
-      margin-bottom: 28px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 30px;
-    }
-
-    .hero-meta {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .meta-chip {
-      padding: 14px 14px 12px;
-      border-radius: 18px;
-      background: rgba(241, 247, 246, 0.04);
-      border: 1px solid rgba(143, 179, 176, 0.12);
-    }
-
-    .meta-chip strong {
-      display: block;
-      color: var(--text);
-      font-family: "League Spartan", Arial, sans-serif;
-      font-size: 1rem;
-      margin-bottom: 6px;
-    }
-
-    .meta-chip span {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .tagline {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-family: "League Spartan", Arial, sans-serif;
-      font-weight: 700;
-      color: var(--secondary);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      font-size: 0.92rem;
-    }
-
-    .tagline::after {
-      content: "";
-      width: 84px;
-      height: 1px;
-      background: linear-gradient(90deg, var(--secondary), transparent);
-    }
-
-    .hero-card {
-      padding: 28px;
-      display: grid;
-      gap: 16px;
-      align-content: start;
-      position: relative;
-      overflow: hidden;
-      min-height: 100%;
-    }
-
-    .hero-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(143, 179, 176, 0.07), transparent 28%),
-        repeating-linear-gradient(135deg, rgba(143, 179, 176, 0.05) 0 2px, transparent 2px 16px);
-      pointer-events: none;
-    }
-
-    .hero-card::after {
-      content: "";
-      position: absolute;
-      right: -20px;
-      top: 80px;
-      width: 180px;
-      height: 180px;
-      border-radius: 24px;
-      border: 1px solid rgba(143, 179, 176, 0.12);
-      transform: rotate(45deg);
-      opacity: 0.28;
-    }
-
-    .hero-card > * { position: relative; z-index: 1; }
-
-    .hero-visual {
-      min-height: 180px;
-      border-radius: 22px;
-      border: 1px solid rgba(143, 179, 176, 0.12);
-      background:
-        linear-gradient(180deg, rgba(143, 179, 176, 0.08), rgba(0, 98, 107, 0.08)),
-        rgba(241, 247, 246, 0.02);
-      position: relative;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-      margin-bottom: 6px;
-    }
-
-    .hero-visual::before,
-    .hero-visual::after {
-      content: "";
-      position: absolute;
-      inset: auto;
-      border-radius: 999px;
-      border: 1px solid rgba(143, 179, 176, 0.24);
-    }
-
-    .hero-visual::before {
-      width: 220px;
-      height: 220px;
-      animation: rotateSlow 18s linear infinite;
-    }
-
-    .hero-visual::after {
-      width: 130px;
-      height: 130px;
-      animation: rotateSlow 10s linear infinite reverse;
-    }
-
-    @keyframes rotateSlow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .mono {
-      width: 112px;
-      height: 112px;
-      border-radius: 28px;
-      background: linear-gradient(135deg, rgba(0, 98, 107, 0.92), rgba(143, 179, 176, 0.9));
-      display: grid;
-      place-items: center;
-      font-family: "League Spartan", Arial, sans-serif;
-      font-size: 2.1rem;
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      color: var(--white);
-      box-shadow: 0 20px 40px rgba(0, 98, 107, 0.28);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .mono::before,
-    .mono::after {
-      content: "";
-      position: absolute;
-      background: rgba(255,255,255,0.22);
-      border-radius: 999px;
-    }
-
-    .mono::before {
-      width: 76px;
-      height: 2px;
-      transform: rotate(45deg);
-    }
-
-    .mono::after {
-      width: 2px;
-      height: 70px;
-      right: 28px;
-      top: 18px;
-    }
-
-    .info-chip {
-      padding: 16px 16px;
-      border-radius: 18px;
-      background: rgba(241, 247, 246, 0.04);
-      border: 1px solid rgba(143, 179, 176, 0.12);
-      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-    }
-
-    .info-chip:hover {
-      transform: translateX(4px);
-      border-color: rgba(143, 179, 176, 0.25);
-      background: rgba(241, 247, 246, 0.06);
-    }
-
-    .info-chip strong {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--secondary);
-      font-family: "League Spartan", Arial, sans-serif;
-      font-size: 1rem;
-    }
-
-    .info-chip span {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    section {
-      padding: 26px 0 42px;
-      position: relative;
-    }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 18px;
-      margin-bottom: 26px;
-    }
-
-    .section-heading p {
-      margin: 12px 0 0;
-      color: var(--muted);
-      max-width: 74ch;
-    }
-
-    h2 {
-      font-size: clamp(2rem, 3.6vw, 3.5rem);
-    }
-
-    .about-grid,
-    .services-grid,
-    .values-grid,
-    .audience-grid,
-    .metrics-grid,
-    .faq-grid,
-    .contact-grid,
-    .footer-grid,
-    .process-grid {
-      display: grid;
-      gap: 20px;
-    }
-
-    .about-grid { grid-template-columns: 1fr 1fr; }
-    .services-grid { grid-template-columns: repeat(2, 1fr); }
-    .values-grid { grid-template-columns: repeat(3, 1fr); }
-    .audience-grid { grid-template-columns: repeat(3, 1fr); }
-    .metrics-grid { grid-template-columns: repeat(4, 1fr); }
-    .faq-grid { grid-template-columns: repeat(2, 1fr); }
-    .contact-grid { grid-template-columns: 1.1fr 0.9fr; }
-    .footer-grid { grid-template-columns: 1.2fr 0.8fr; align-items: start; }
-    .process-grid { grid-template-columns: repeat(4, 1fr); }
-
-    .section-card,
-    .service,
-    .value,
-    .audience,
-    .metric,
-    .faq-item,
-    .contact-box {
-      padding: 28px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-    }
-
-    .section-card:hover,
-    .service:hover,
-    .value:hover,
-    .audience:hover,
-    .metric:hover,
-    .faq-item:hover,
-    .contact-box:hover {
-      transform: translateY(-4px);
-      border-color: rgba(143, 179, 176, 0.24);
-      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
-    }
-
-    .section-card::before,
-    .service::before,
-    .value::before,
-    .audience::before,
-    .metric::before,
-    .faq-item::before,
-    .contact-box::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(143, 179, 176, 0.04), transparent 55%);
-      pointer-events: none;
-    }
-
-    .kicker {
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--secondary);
-      font-weight: 700;
-      margin-bottom: 14px;
-      display: inline-block;
-      font-family: "League Spartan", Arial, sans-serif;
-    }
-
-    .service h3,
-    .value h3,
-    .audience h3,
-    .faq-item h3,
-    .contact-box h3,
-    .section-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-      line-height: 1.02;
-    }
-
-    .service p,
-    .value p,
-    .audience p,
-    .section-card p,
-    .faq-item p,
-    .contact-box p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .service ul,
-    .section-card ul,
-    .contact-box ul {
-      padding-left: 18px;
-      margin: 16px 0 0;
-      color: var(--muted);
-    }
-
-    .service li,
-    .section-card li,
-    .contact-box li {
-      margin-bottom: 8px;
-    }
-
-    .icon,
-    .step-number {
-      width: 56px;
-      height: 56px;
-      display: grid;
-      place-items: center;
-      border-radius: 16px;
-      background: linear-gradient(135deg, rgba(0, 98, 107, 0.18), rgba(143, 179, 176, 0.12));
-      border: 1px solid rgba(143, 179, 176, 0.18);
-      color: var(--secondary);
-      font-size: 1.1rem;
-      margin-bottom: 18px;
-      font-family: "League Spartan", Arial, sans-serif;
-      font-weight: 700;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
-    }
-
-    .process-step {
-      padding: 26px;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-      border: 1px solid rgba(143, 179, 176, 0.12);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .process-step p { color: var(--muted); margin: 0; }
-    .process-step h3 { margin-bottom: 10px; font-size: 1.2rem; }
-
-    .metric {
-      text-align: left;
-      padding: 28px 22px;
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 2rem;
-      color: var(--text);
-      font-family: "League Spartan", Arial, sans-serif;
-      margin-bottom: 10px;
-    }
-
-    .metric span {
-      display: block;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    .contact-box form {
-      display: grid;
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    label {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text);
-      font-family: "League Spartan", Arial, sans-serif;
-      letter-spacing: 0.02em;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 15px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(143, 179, 176, 0.16);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      font: inherit;
-      outline: none;
-    }
-
-    input::placeholder, textarea::placeholder { color: rgba(241, 247, 246, 0.42); }
-
-    input:focus, textarea:focus {
-      border-color: rgba(143, 179, 176, 0.44);
-      box-shadow: 0 0 0 4px rgba(0, 98, 107, 0.15);
-    }
-
-    textarea {
-      min-height: 140px;
-      resize: vertical;
-    }
-
-    .contact-note {
-      margin-top: 14px;
-      font-size: 0.92rem;
-      color: rgba(241, 247, 246, 0.58);
-    }
-
-    footer {
-      padding: 26px 0 46px;
-    }
-
-    .footer-card {
-      padding: 30px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .footer-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(0, 98, 107, 0.14), transparent 45%),
-        radial-gradient(circle at 90% 10%, rgba(143, 179, 176, 0.1), transparent 20%);
-      pointer-events: none;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      margin-top: 14px;
-      color: var(--muted);
-      font-weight: 700;
-      font-family: "League Spartan", Arial, sans-serif;
-    }
-
-    .small {
-      font-size: 0.92rem;
-      color: rgba(241, 247, 246, 0.66);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.75s ease, transform 0.75s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .line-tech {
-      position: absolute;
-      inset: auto auto 8% -10%;
-      width: 120%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(143, 179, 176, 0.22), transparent);
-      animation: lineRun 7s linear infinite;
-      pointer-events: none;
-    }
-
-    .line-tech.top {
-      inset: 14% -5% auto auto;
-      width: 80%;
-      animation-duration: 10s;
-      opacity: 0.8;
-    }
-
-    @keyframes lineRun {
-      from { transform: translateX(-8%); opacity: 0.2; }
-      50% { opacity: 1; }
-      to { transform: translateX(8%); opacity: 0.2; }
-    }
-
-    @media (max-width: 1120px) {
-      .hero-grid,
-      .about-grid,
-      .contact-grid,
-      .footer-grid,
-      .services-grid,
-      .values-grid,
-      .audience-grid,
-      .metrics-grid,
-      .faq-grid,
-      .process-grid,
-      .hero-meta {
-        grid-template-columns: 1fr;
-      }
-
-      h1 { max-width: 14ch; }
-    }
-
-    @media (max-width: 760px) {
-      .nav-inner {
-        flex-direction: column;
-        align-items: start;
-      }
-
-      .nav-links {
-        flex-wrap: wrap;
-        gap: 14px;
-      }
-
-      .hero-copy,
-      .hero-card,
-      .section-card,
-      .service,
-      .value,
-      .audience,
-      .metric,
-      .faq-item,
-      .contact-box,
-      .footer-card,
-      .process-step {
-        padding: 22px;
-      }
-
-      .hero { padding-top: 72px; }
-      h1 { font-size: 2.8rem; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="site-bg">
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+  </div>
+
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="#inicio" aria-label="B-RAM TECH">
-        <div class="brand-mark">BR</div>
-        <span>
-          B-RAM TECH
-          <small>Estructura. Control. Cumplimiento.</small>
-        </span>
+        <img class="brand-logo" src="logo-b-ram-white.png" alt="B-RAM TECH" />
       </a>
-      <div class="nav-links">
+
+      <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span>
+      </button>
+
+      <div class="nav-links" id="mobileMenu">
         <a href="#quienes-somos">Quiénes somos</a>
         <a href="#servicios">Servicios</a>
+        <a href="#arquitectura">Arquitectura</a>
         <a href="#proceso">Proceso</a>
-        <a href="#diferencia">Diferencia</a>
         <a href="#contacto">Contacto</a>
         <a class="btn btn-primary" href="#contacto">Solicitar diagnóstico</a>
       </div>
@@ -915,60 +40,94 @@
   </nav>
 
   <header class="hero" id="inicio">
-    <div class="line-tech top"></div>
+    <div class="tech-line tech-line-top"></div>
     <div class="container hero-grid">
       <section class="panel hero-copy reveal">
-        <div class="eyebrow">Arquitectura técnica de cumplimiento previsional</div>
-        <h1>Convertimos la gestión previsional de RR.HH. en un sistema estructurado, controlado y preventivo.</h1>
+        <div class="eyebrow">Tecnología aplicada al control previsional</div>
+        <h1>Diseñamos sistemas de control inteligente para RR.HH.</h1>
         <p class="lead">
-          B-RAM fortalece la gestión previsional del área de Recursos Humanos mediante auditoría técnica,
-          analítica especializada, diseño de arquitectura de control y prevención estructural para operar con
-          seguridad, trazabilidad y cumplimiento real.
+          B-RAM une auditoría técnica, análisis especializado, arquitectura de control y prevención estructural
+          para transformar la gestión previsional en una operación segura, trazable y tecnológicamente robusta.
         </p>
+
         <div class="hero-actions">
           <a class="btn btn-primary" href="#contacto">Hablemos de su empresa</a>
           <a class="btn btn-secondary" href="#servicios">Explorar servicios</a>
         </div>
+
         <div class="tagline">Estructura. Control. Cumplimiento.</div>
+
         <div class="hero-meta">
           <div class="meta-chip">
-            <strong>Precisión técnica</strong>
-            <span>Diagnósticos claros, documentados y accionables.</span>
+            <strong>Arquitectura técnica</strong>
+            <span>Procesos, flujos, matrices y validaciones conectadas.</span>
           </div>
           <div class="meta-chip">
-            <strong>Control real</strong>
-            <span>Matrices, protocolos y flujos con trazabilidad.</span>
+            <strong>Trazabilidad real</strong>
+            <span>Diseño orientado a control, evidencia y consistencia operativa.</span>
           </div>
           <div class="meta-chip">
-            <strong>Prevención</strong>
-            <span>Diseño estructural para evitar la recurrencia del error.</span>
+            <strong>Prevención inteligente</strong>
+            <span>No solo corregimos: construimos una capa preventiva sostenible.</span>
           </div>
         </div>
       </section>
 
-      <aside class="hero-card reveal">
-        <div class="hero-visual">
-          <div class="mono">BR</div>
+      <aside class="hero-side reveal">
+        <div class="hero-visual panel">
+          <div class="hero-orbit orbit-1"></div>
+          <div class="hero-orbit orbit-2"></div>
+          <div class="hero-orbit orbit-3"></div>
+          <div class="hero-core">
+            <img class="hero-logo" src="logo-b-ram-white.png" alt="Logo B-RAM TECH" />
+          </div>
+          <div class="floating-chip chip-a">Data Control</div>
+          <div class="floating-chip chip-b">Tech Compliance</div>
+          <div class="floating-chip chip-c">Risk Matrix</div>
         </div>
-        <div class="info-chip">
-          <strong>Integración estructural</strong>
-          <span>La lógica de marca se inspira en la unión de diagnóstico + rediseño + control.</span>
-        </div>
-        <div class="info-chip">
-          <strong>Líneas tecnológicas</strong>
-          <span>Elementos visuales que evocan trazabilidad, circuitos, datos y procesos interconectados.</span>
-        </div>
-        <div class="info-chip">
-          <strong>Visión moderna</strong>
-          <span>Lenguaje visual sobrio, premium y tecnológico para transmitir seguridad y sofisticación.</span>
-        </div>
-        <div class="info-chip">
-          <strong>Soporte a RR.HH.</strong>
-          <span>Una capa técnica especializada para fortalecer remuneraciones, cumplimiento y control interno.</span>
+
+        <div class="hero-stack">
+          <article class="info-chip">
+            <strong>Empresa de tecnología</strong>
+            <span>La interfaz, las líneas visuales y la arquitectura del sitio proyectan una marca tech, premium y especializada.</span>
+          </article>
+          <article class="info-chip">
+            <strong>Diseño inspirado en sistemas</strong>
+            <span>Visuales tipo red, nodos, grids y señales digitales para comunicar innovación y control estructural.</span>
+          </article>
+          <article class="info-chip">
+            <strong>Logo visible y protagonista</strong>
+            <span>Se integró como elemento principal de marca tanto en navegación como en el hero para reforzar identidad.</span>
+          </article>
         </div>
       </aside>
     </div>
   </header>
+
+  <section class="signal-strip">
+    <div class="container signal-grid">
+      <article class="signal-card reveal">
+        <span class="signal-label">Capa 01</span>
+        <strong class="signal-value">Auditoría inteligente</strong>
+        <p>Lectura técnica de procesos previsionales con foco en detección y análisis de brechas.</p>
+      </article>
+      <article class="signal-card reveal">
+        <span class="signal-label">Capa 02</span>
+        <strong class="signal-value">Arquitectura de control</strong>
+        <p>Protocolos, flujos y validaciones para construir una operación estructurada.</p>
+      </article>
+      <article class="signal-card reveal">
+        <span class="signal-label">Capa 03</span>
+        <strong class="signal-value">Trazabilidad operativa</strong>
+        <p>Procesos conectados con evidencia, orden y consistencia documental.</p>
+      </article>
+      <article class="signal-card reveal">
+        <span class="signal-label">Capa 04</span>
+        <strong class="signal-value">Prevención continua</strong>
+        <p>Monitoreo y acompañamiento para que el cumplimiento sea sostenible en el tiempo.</p>
+      </article>
+    </div>
+  </section>
 
   <main>
     <section id="quienes-somos">
@@ -976,7 +135,7 @@
         <div class="section-heading reveal">
           <div>
             <span class="kicker">Quiénes somos</span>
-            <h2>Una firma técnica que combina estructura, análisis y prevención.</h2>
+            <h2>Una firma técnica con lenguaje, presencia y visión de tecnología.</h2>
             <p>
               B-RAM nace al detectar una brecha en el mercado previsional: muchas soluciones corrigen de forma parcial o se enfocan solo en la recuperación, pero no rediseñan el sistema interno para que no vuelva a fallar.
             </p>
@@ -988,7 +147,7 @@
             <span class="kicker">Nuestra visión</span>
             <h3>Socio técnico permanente para RR.HH.</h3>
             <p>
-              Buscamos consolidarnos como referente técnico en cumplimiento previsional, integrando consultoría especializada con herramientas de análisis preventivo y una mirada estructural del control.
+              Queremos consolidarnos como referente técnico en cumplimiento previsional, integrando consultoría especializada con herramientas de análisis preventivo y una mirada estructural del control.
             </p>
           </article>
 
@@ -1067,6 +226,42 @@
       </div>
     </section>
 
+    <section id="arquitectura">
+      <div class="container architecture-grid">
+        <article class="architecture-panel reveal panel">
+          <span class="kicker">Arquitectura B-RAM</span>
+          <h2>Una experiencia visual pensada como sistema.</h2>
+          <p class="lead architecture-lead">
+            Como tu proyecto vive en git, la estructura quedó preparada para evolucionar con facilidad. El diseño transmite tecnología mediante capas visuales, nodos, grids, señales, movimientos sutiles y una composición modular que se puede seguir expandiendo.
+          </p>
+          <div class="hero-actions architecture-pills">
+            <span class="pill">UI Tech</span>
+            <span class="pill">Base escalable</span>
+            <span class="pill">Git ready</span>
+          </div>
+        </article>
+
+        <article class="architecture-panel reveal panel">
+          <div class="architecture-visual">
+            <div class="architecture-stack">
+              <div class="stack-node">
+                <strong>Capa 01 · Diagnóstico</strong>
+                <span>Lectura de procesos, detección de brechas y evaluación de riesgo.</span>
+              </div>
+              <div class="stack-node">
+                <strong>Capa 02 · Arquitectura</strong>
+                <span>Controles, flujos, validaciones y estructura operativa sostenible.</span>
+              </div>
+              <div class="stack-node">
+                <strong>Capa 03 · Prevención</strong>
+                <span>Seguimiento, monitoreo y lógica preventiva para el largo plazo.</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section id="proceso">
       <div class="container">
         <div class="section-heading reveal">
@@ -1135,101 +330,7 @@
           </article>
         </div>
       </div>
-      <div class="line-tech"></div>
-    </section>
-
-    <section id="valores">
-      <div class="container">
-        <div class="section-heading reveal">
-          <div>
-            <span class="kicker">Valores</span>
-            <h2>La base de cada decisión técnica.</h2>
-          </div>
-        </div>
-
-        <div class="values-grid">
-          <article class="value reveal">
-            <h3>Precisión técnica</h3>
-            <p>Analizamos con profundidad, método y foco en evidencia concreta.</p>
-          </article>
-          <article class="value reveal">
-            <h3>Transparencia</h3>
-            <p>Comunicamos hallazgos con claridad y sin sobrepromesas.</p>
-          </article>
-          <article class="value reveal">
-            <h3>Rigor normativo</h3>
-            <p>Actuamos con conocimiento especializado del entorno laboral y previsional.</p>
-          </article>
-          <article class="value reveal">
-            <h3>Independencia profesional</h3>
-            <p>Evaluamos con criterio técnico, alto estándar metodológico y objetividad.</p>
-          </article>
-          <article class="value reveal">
-            <h3>Prevención estructural</h3>
-            <p>No solo resolvemos contingencias; diseñamos sistemas que las evitan.</p>
-          </article>
-          <article class="value reveal">
-            <h3>Confidencialidad</h3>
-            <p>Tratamos la información crítica de cada empresa con máxima responsabilidad.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="publico">
-      <div class="container">
-        <div class="section-heading reveal">
-          <div>
-            <span class="kicker">Público objetivo</span>
-            <h2>Empresas que necesitan profesionalizar su gestión previsional.</h2>
-          </div>
-        </div>
-
-        <div class="audience-grid">
-          <article class="audience reveal">
-            <h3>Liderazgo de RR.HH.</h3>
-            <p>Gerentes de Recursos Humanos, jefes de remuneraciones y líderes que necesitan fortalecer procesos críticos.</p>
-          </article>
-          <article class="audience reveal">
-            <h3>Empresas medianas y grandes</h3>
-            <p>Organizaciones con alta dotación, complejidad previsional o múltiples razones sociales.</p>
-          </article>
-          <article class="audience reveal">
-            <h3>Entornos exigentes</h3>
-            <p>Empresas fiscalizadas, con procesos manuales o que buscan reducir riesgo normativo.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq">
-      <div class="container">
-        <div class="section-heading reveal">
-          <div>
-            <span class="kicker">Preguntas clave</span>
-            <h2>¿Por qué trabajar con B-RAM?</h2>
-          </div>
-        </div>
-
-        <div class="faq-grid">
-          <article class="faq-item reveal">
-            <h3>¿Qué hace diferente a B-RAM?</h3>
-            <p>Integra auditoría técnica, analítica especializada, rediseño de procesos y prevención estructural en una sola solución.</p>
-          </article>
-          <article class="faq-item reveal">
-            <h3>¿Qué obtiene su empresa?</h3>
-            <p>Diagnósticos accionables, arquitectura de control, orden estructural y acompañamiento especializado para operar con seguridad.</p>
-          </article>
-          <article class="faq-item reveal">
-            <h3>¿En qué tipo de empresas aporta más valor?</h3>
-            <p>En organizaciones con alta dotación, múltiples razones sociales, procesos poco estructurados o riesgo normativo relevante.</p>
-          </article>
-          <article class="faq-item reveal">
-            <h3>¿Cuál es el foco del trabajo?</h3>
-            <p>Diseñar sistemas previsionales sólidos para el área de Recursos Humanos, con control real y prevención no reactiva.</p>
-          </article>
-        </div>
-      </div>
+      <div class="tech-line tech-line-bottom"></div>
     </section>
 
     <section id="contacto">
@@ -1239,7 +340,7 @@
             <span class="kicker">Contacto</span>
             <h2>Conversemos sobre la arquitectura previsional de su empresa.</h2>
             <p>
-              La sección quedó con una estética más tecnológica y premium, lista para conectar correo, WhatsApp, CRM o formulario real dentro de GoDaddy.
+              La estructura quedó lista para seguir iterando dentro de tu proyecto en git, con archivos separados y una identidad mucho más tecnológica.
             </p>
           </div>
         </div>
@@ -1247,7 +348,7 @@
         <div class="contact-grid">
           <article class="contact-box reveal">
             <h3>Solicitar diagnóstico</h3>
-            <p>Completa este formulario referencial para presentar tus servicios de forma sólida mientras definimos la integración final.</p>
+            <p>Completa este formulario referencial para presentar tus servicios con una experiencia más sólida y tecnológica.</p>
             <form onsubmit="event.preventDefault(); alert('Formulario de ejemplo. Aquí se puede conectar correo, CRM o WhatsApp.');">
               <div class="field">
                 <label for="nombre">Nombre</label>
@@ -1271,15 +372,14 @@
           </article>
 
           <aside class="contact-box reveal">
-            <h3>Qué podemos sumar ahora</h3>
+            <h3>Archivos del proyecto</h3>
             <ul>
-              <li>Logo oficial en PNG o SVG</li>
-              <li>Botón de WhatsApp flotante</li>
-              <li>Correo corporativo y teléfono</li>
-              <li>LinkedIn corporativo</li>
-              <li>Casos de éxito o testimonios</li>
+              <li><strong>index.html</strong> para estructura</li>
+              <li><strong>styles.css</strong> para toda la capa visual</li>
+              <li><strong>script.js</strong> para interacciones y animaciones</li>
+              <li><strong>logo-b-ram-white.png</strong> para marca visible</li>
             </ul>
-            <div style="height: 18px"></div>
+            <div class="spacer"></div>
             <h3>Mensaje de marca</h3>
             <p>
               B-RAM integra conocimiento técnico con inteligencia aplicada para diseñar sistemas previsionales sólidos, claros y sostenibles para el área de Recursos Humanos.
@@ -1292,46 +392,28 @@
 
   <footer>
     <div class="container">
-      <div class="footer-card footer-grid reveal">
+      <div class="footer-card footer-grid reveal panel">
         <div>
-          <div class="brand" style="margin-bottom: 10px;">
-            <div class="brand-mark">BR</div>
-            <span>
-              B-RAM TECH
-              <small>Estructura. Control. Cumplimiento.</small>
-            </span>
-          </div>
+          <img class="footer-logo" src="logo-b-ram-white.png" alt="B-RAM TECH" />
           <p class="small">
             Firma especializada en auditoría previsional, consultoría técnica en cumplimiento normativo laboral y previsional, diseño de sistemas de control interno y asesoría especializada para áreas de Recursos Humanos.
           </p>
         </div>
         <div>
-          <strong style="display:block; margin-bottom: 10px; font-family: 'League Spartan', Arial, sans-serif;">Accesos rápidos</strong>
+          <strong class="footer-title">Accesos rápidos</strong>
           <div class="footer-links">
             <a href="#quienes-somos">Quiénes somos</a>
             <a href="#servicios">Servicios</a>
+            <a href="#arquitectura">Arquitectura</a>
             <a href="#proceso">Proceso</a>
-            <a href="#valores">Valores</a>
             <a href="#contacto">Contacto</a>
           </div>
-          <p class="small" style="margin-top: 18px;">© <span id="year"></span> B-RAM TECH. Todos los derechos reservados.</p>
+          <p class="small footer-copy">© <span id="year"></span> B-RAM TECH. Todos los derechos reservados.</p>
         </div>
       </div>
     </div>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-  </script>
+  <script src="script.js"></script>
 </body>
-</html>
+</html>  
