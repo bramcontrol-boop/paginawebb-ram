@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     navToggle.addEventListener("click", () => {
       const isOpen = mobileMenu.classList.toggle("open");
       navToggle.classList.toggle("active", isOpen);
-      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
     });
 
     mobileMenu.querySelectorAll("a").forEach((link) => {
