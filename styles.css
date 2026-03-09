@@ -148,9 +148,9 @@ a {
 }
 
 .brand-logo {
-  height: 100px;
+  height: 42px;
   width: auto;
-  max-width: 10px;
+  max-width: 320px;
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
