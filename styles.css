@@ -137,8 +137,8 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 8px 0;
-  min-height: 64px;
+  padding: 4px 0;
+  min-height: 48px;
 }
 
 .brand {
@@ -148,7 +148,7 @@ a {
 }
 
 .brand-logo {
-  height: 42px;
+  height: 64px;
   width: auto;
   max-width: 320px;
   object-fit: contain;
