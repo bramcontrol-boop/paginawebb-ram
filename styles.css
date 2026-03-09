@@ -338,9 +338,10 @@ a {
 
 .hero-single .hero-actions {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .hero-single .hero-tagline {
