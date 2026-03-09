@@ -1146,3 +1146,32 @@ textarea {
     width: 120px;
   }
 }
+@media (max-width: 980px) {
+  .hero-single {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 24px;
+  }
+
+  .hero-single-content {
+    order: 2;
+  }
+
+  .hero-single-visual {
+    order: 1;
+  }
+
+  .hero-single .hero-logo-wrap {
+    width: min(100%, 240px);
+    padding: 18px;
+  }
+
+  .hero-single h1 {
+    max-width: 100%;
+    font-size: 2.4rem;
+  }
+
+  .hero-single .hero-stats {
+    grid-template-columns: 1fr;
+  }
+}
