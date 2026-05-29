@@ -400,6 +400,11 @@ section[id] {
   gap: 18px;
   align-items: stretch;
 }
+@media (min-width: 901px) {
+  .svc-left   { grid-column: 1; grid-row: 1; }
+  .svc-detail { grid-column: 2; grid-row: 1 / span 2; }
+  .svc-modelo { grid-column: 1; grid-row: 2; }
+}
 @media (max-width: 900px) { .svc-showcase { grid-template-columns: 1fr; } }
 .svc-left { display: flex; flex-direction: column; gap: 18px; }
 
@@ -566,7 +571,6 @@ section[id] {
   gap: 20px;
   position: relative;
   overflow: hidden;
-  flex: 1;
 }
 .svc-modelo::before {
   content: '';
