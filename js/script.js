@@ -5,7 +5,8 @@
    2. Logo del nav → scroll al tope absoluto
    3. Detección de scroll del navbar (sombra/borde)
    4. Tabs de servicios (cambia el panel de detalle)
-   5. Validación y envío del formulario de diagnóstico
+   5. Theme toggle (modo claro / oscuro)
+   6. Validación y envío del formulario de diagnóstico
    ========================================================================== */
 (function () {
   'use strict';
@@ -122,7 +123,27 @@
   });
   if (detailPanel) setActiveService(0);
 
-  /* 5. ─────────── Formulario de diagnóstico ─────────────────────────────── */
+  /* 5. ─────────── Theme toggle ──────────────────────────────────────────── */
+  var themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    function updateToggleIcon(theme) {
+      var use = themeToggle.querySelector('.theme-icon use');
+      if (use) use.setAttribute('href', theme === 'dark' ? '#ic-moon' : '#ic-sun');
+      themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+    }
+    updateToggleIcon(document.documentElement.getAttribute('data-theme') || 'dark');
+    themeToggle.addEventListener('click', function () {
+      var html = document.documentElement;
+      var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.classList.add('theme-transitioning');
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('bram-theme', next);
+      updateToggleIcon(next);
+      setTimeout(function () { html.classList.remove('theme-transitioning'); }, 400);
+    });
+  }
+
+  /* 6. ─────────── Formulario de diagnóstico ─────────────────────────────── */
   var form = document.getElementById('diag-form');
   if (form) {
     var FIELDS = ['nombre', 'empresa', 'email', 'mensaje'];
@@ -203,4 +224,130 @@
       }, 900);
     });
   }
+})();
+
+/* ─────────────────── Panel flotante de diagnóstico ──────────────────────── */
+(function () {
+  var trigger  = document.getElementById('float-trigger');
+  var panel    = document.getElementById('float-panel');
+  var overlay  = document.getElementById('float-overlay');
+  var closeBtn = document.getElementById('float-panel-close');
+
+  if (!trigger || !panel || !overlay) return;
+
+  var contactVisible = false;
+
+  function openPanel() {
+    panel.classList.add('open');
+    overlay.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+    trigger.classList.add('hidden');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () {
+      var first = panel.querySelector('input, textarea');
+      if (first) first.focus();
+    }, 380);
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    overlay.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    if (!contactVisible) trigger.classList.remove('hidden');
+    trigger.focus();
+  }
+
+  trigger.addEventListener('click', openPanel);
+  overlay.addEventListener('click', closePanel);
+  if (closeBtn) closeBtn.addEventListener('click', closePanel);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+  });
+
+  /* Ocultar trigger cuando el formulario principal es visible */
+  var mainContact = document.getElementById('diagnostico');
+  if (mainContact && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      contactVisible = entries[0].isIntersecting;
+      if (contactVisible) trigger.classList.add('hidden');
+      else if (!panel.classList.contains('open')) trigger.classList.remove('hidden');
+    }, { threshold: 0.2 }).observe(mainContact);
+  }
+
+  /* Validación y envío */
+  var floatForm = document.getElementById('float-form');
+  if (!floatForm) return;
+
+  var FIELDS = ['ff_nombre', 'ff_empresa', 'ff_email', 'ff_mensaje'];
+  var touched = {};
+
+  function getData() {
+    var d = {};
+    FIELDS.forEach(function (k) {
+      var el = floatForm.querySelector('[name="' + k + '"]');
+      d[k] = el ? el.value : '';
+    });
+    return d;
+  }
+
+  function validate(d) {
+    var e = {};
+    if (!d.ff_nombre.trim()) e.ff_nombre = 'Requerido';
+    if (!d.ff_empresa.trim()) e.ff_empresa = 'Requerido';
+    if (!d.ff_email.trim()) e.ff_email = 'Requerido';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.ff_email.trim())) e.ff_email = 'Formato inválido';
+    return e;
+  }
+
+  function showErrors(errs) {
+    FIELDS.forEach(function (k) {
+      var input = floatForm.querySelector('[name="' + k + '"]');
+      if (!input) return;
+      var wrap  = input.closest('.fld');
+      var errEl = wrap && wrap.querySelector('.err');
+      var hasErr = errs[k] && touched[k];
+      if (wrap) wrap.classList.toggle('invalid', !!hasErr);
+      if (errEl) errEl.textContent = hasErr ? errs[k] : '';
+    });
+  }
+
+  FIELDS.forEach(function (k) {
+    var input = floatForm.querySelector('[name="' + k + '"]');
+    if (!input) return;
+    input.addEventListener('input', function () { if (touched[k]) showErrors(validate(getData())); });
+    input.addEventListener('blur',  function () { touched[k] = true; showErrors(validate(getData())); });
+  });
+
+  floatForm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var errs = validate(getData());
+    FIELDS.forEach(function (k) { touched[k] = true; });
+    showErrors(errs);
+    if (Object.keys(errs).length) {
+      var firstEl = floatForm.querySelector('[name="' + Object.keys(errs)[0] + '"]');
+      if (firstEl) firstEl.focus();
+      return;
+    }
+    var btn = floatForm.querySelector('button[type="submit"]');
+    var lbl = btn && btn.querySelector('.btn-label');
+    var arr = btn && btn.querySelector('.arr');
+    if (lbl) lbl.textContent = 'Enviando…';
+    if (arr) arr.style.display = 'none';
+    if (btn) btn.disabled = true;
+
+    setTimeout(function () {
+      var inner = document.getElementById('float-panel-inner');
+      if (!inner) return;
+      inner.innerHTML = ''
+        + '<div class="form-success" style="padding:48px 8px 32px;">'
+        +   '<div class="check"><svg><use href="#ic-check"/></svg></div>'
+        +   '<div class="t">Solicitud recibida</div>'
+        +   '<p>Un especialista te contactará en las próximas <strong>48 horas hábiles</strong>.</p>'
+        +   '<button class="btn btn-ghost" type="button" id="float-success-close">Cerrar</button>'
+        + '</div>';
+      var sc = document.getElementById('float-success-close');
+      if (sc) sc.addEventListener('click', closePanel);
+    }, 900);
+  });
 })();

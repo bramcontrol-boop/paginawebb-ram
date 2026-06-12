@@ -11,6 +11,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="css/styles.css" />
+<script>
+  (function(){
+    var t=localStorage.getItem('bram-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    document.documentElement.setAttribute('data-theme',t);
+  })();
+</script>
 </head>
 <body>
 
@@ -31,6 +37,8 @@
     <symbol id="ic-database" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="2.5"/><path d="M4 5v6c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V5"/><path d="M4 11v6c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-6"/></g></symbol>
     <symbol id="ic-file-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6"/><path d="M9 15l2 2 4-4"/></g></symbol>
     <symbol id="ic-exchange" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14"/><path d="M14 4l4 4-4 4"/><path d="M20 16H6"/><path d="M10 20l-4-4 4-4"/></g></symbol>
+    <symbol id="ic-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M17.66 6.34l-1.41 1.41M6.34 17.66l-1.41 1.41"/></g></symbol>
+    <symbol id="ic-moon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></symbol>
   </defs>
 </svg>
 
@@ -48,10 +56,9 @@
       <a href="#metodologias">Metodología</a>
       <a href="#contacto">Contacto</a>
     </div>
-    <a href="#diagnostico" class="btn btn-sm">
-      Solicitar diagnóstico
-      <svg class="arr"><use href="#ic-arrow"/></svg>
-    </a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar a modo claro" title="Cambiar tema">
+      <svg class="theme-icon" width="17" height="17" aria-hidden="true"><use href="#ic-moon"/></svg>
+    </button>
   </div>
 </nav>
 
@@ -63,8 +70,8 @@
     <div class="hero-grid" data-reveal>
       <div>
         <h1>
-          Recuperamos recursos.<br/>
-          Regularizamos procesos.<br/>
+          Recuperamos recursos<br/>
+          Regularizamos procesos<br/>
           <span class="accent">Diseñamos control real.</span>
         </h1>
         <p class="hero-desc">
@@ -546,6 +553,62 @@
     <div class="foot-c">© 2025 B-RAM · Todos los derechos reservados</div>
   </div>
 </footer>
+
+<!-- PANEL FLOTANTE DE CONTACTO ----------------------------------------- -->
+<div id="float-overlay" class="float-overlay" aria-hidden="true"></div>
+
+<aside id="float-panel" class="float-panel" role="dialog" aria-modal="true" aria-labelledby="float-panel-heading">
+  <div class="float-panel-inner" id="float-panel-inner">
+
+    <div class="float-panel-hd">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Diagnóstico rápido</div>
+        <h2 class="float-panel-title" id="float-panel-heading">Solicitar diagnóstico</h2>
+      </div>
+      <button id="float-panel-close" class="float-close" aria-label="Cerrar formulario">
+        <svg width="16" height="16" aria-hidden="true"><use href="#ic-x"/></svg>
+      </button>
+    </div>
+
+    <form id="float-form" novalidate>
+      <div class="float-form-body">
+        <div class="fld">
+          <label for="ff-nombre">Nombre<span class="req">*</span></label>
+          <input id="ff-nombre" type="text" name="ff_nombre" placeholder="Nombre y apellido" autocomplete="name" />
+          <div class="err"></div>
+        </div>
+        <div class="fld">
+          <label for="ff-empresa">Empresa<span class="req">*</span></label>
+          <input id="ff-empresa" type="text" name="ff_empresa" placeholder="Razón social" autocomplete="organization" />
+          <div class="err"></div>
+        </div>
+        <div class="fld">
+          <label for="ff-email">Correo<span class="req">*</span></label>
+          <input id="ff-email" type="email" name="ff_email" placeholder="nombre@empresa.cl" autocomplete="email" />
+          <div class="err"></div>
+        </div>
+        <div class="fld">
+          <label for="ff-mensaje">Mensaje</label>
+          <textarea id="ff-mensaje" name="ff_mensaje" placeholder="Cuéntanos brevemente tu necesidad."></textarea>
+          <div class="err"></div>
+        </div>
+      </div>
+      <div class="float-form-foot">
+        <p class="form-note">No compartimos tu información con terceros.</p>
+        <button class="btn float-submit" type="submit">
+          <span class="btn-label">Enviar solicitud</span>
+          <svg class="arr"><use href="#ic-arrow"/></svg>
+        </button>
+      </div>
+    </form>
+
+  </div>
+</aside>
+
+<button id="float-trigger" class="float-trigger" aria-label="Solicitar diagnóstico" aria-expanded="false" aria-controls="float-panel">
+  <svg width="17" height="17" aria-hidden="true"><use href="#ic-arrow-up-right"/></svg>
+  <span>Diagnóstico</span>
+</button>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/script.js"></script>
 
